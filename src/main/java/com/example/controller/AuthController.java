@@ -134,7 +134,9 @@ public class AuthController extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute(SessaoUtil.ATRIBUTO_USUARIO, usuario.getId());
         session.setAttribute(SessaoUtil.ATRIBUTO_TIPO, usuario.getTipo());
-
+response.setHeader("Set-Cookie",
+    "JSESSIONID=" + session.getId() + "; Path=/api; HttpOnly; Secure; SameSite=None");
+    
         usuario.setSenha(null);
         JsonUtil.enviar(response, usuario);
     }

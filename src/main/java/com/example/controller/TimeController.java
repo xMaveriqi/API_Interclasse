@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.dao.TimeDao;
 import com.example.model.Time;
 import com.example.util.JsonUtil;
+import com.example.util.SessaoUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,8 +54,21 @@ public class TimeController extends HttpServlet {
         }
     }
 
+    private boolean exigirOrganizador(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    if (!SessaoUtil.estaLogado(request)) {
+        JsonUtil.enviarErro(response, HttpServletResponse.SC_UNAUTHORIZED, "faca login para continuar");
+        return false;
+    }
+    if (!SessaoUtil.ehOrganizador(request)) {
+        JsonUtil.enviarErro(response, HttpServletResponse.SC_FORBIDDEN, "acesso restrito a organizadores");
+        return false;
+    }
+    return true;
+}
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!exigirOrganizador(request, response)) return;
         try {
             Time time = JsonUtil.ler(request, Time.class);
             if (time == null || time.getNome() == null || time.getNome().isBlank()) {
@@ -71,6 +85,7 @@ public class TimeController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!exigirOrganizador(request, response)) return;
         try {
             String id = request.getParameter("id");
             if (id == null) {
@@ -100,6 +115,7 @@ public class TimeController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       if (!exigirOrganizador(request, response)) return;
         try {
             String id = request.getParameter("id");
             if (id == null) {

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>interclasse</title>
+</head>
+<body>
+  <h1>Times do Interclasse</h1>
+  <p id="usuario">Você não está logado.</p>
+<form id="form-login">
+  <input id="email" type="email" placeholder="E-mail" required>
+  <input id="senha" type="password" placeholder="Senha" required>
+  <button type="submit">Entrar</button>
+</form>
+<button id="btn-sair" hidden>Sair</button>
+  <form id="form-time" hidden>
+  <input id="nome" placeholder="Nome do time" required>
+  <input id="cor" placeholder="Cor">
+  <input id="responsavel" placeholder="Responsável">
+  <input id="contato" placeholder="Contato">
+  <button type="submit">Cadastrar</button>
+</form>
+  <p id="status">Carregando</p>
+  <ul id="lista-times"></ul>
+  <script src="app.js"></script>
+</body>
+</html>
